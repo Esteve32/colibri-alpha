@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colibri Alpha - Demo Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="colibri-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <h1>Colibri Alpha</h1>
+            </div>
+            <p class="subtitle">Experimental Demos & Prototypes</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="intro">
+                <h2>Welcome to Colibri Alpha</h2>
+                <p>Explore our latest experimental features, prototypes, and alpha versions. Each demo represents cutting-edge development work ready for testing and feedback.</p>
+            </section>
+
+            <section class="demos-grid">
+                <h3>Available Demos</h3>
+                <div class="demos-container" id="demos-container">
+                    <!-- Demo cards will be populated here -->
+                    <div class="demo-card coming-soon">
+                        <div class="demo-icon">🚀</div>
+                        <h4>More Demos Coming Soon</h4>
+                        <p>New alpha features and prototypes will be added regularly. Check back often for the latest updates!</p>
+                        <div class="demo-status">Coming Soon</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="add-demo">
+                <div class="add-demo-card">
+                    <h3>Add a New Demo</h3>
+                    <p>To add a new demo to this gallery:</p>
+                    <ol>
+                        <li>Create a new folder in the <code>demos/</code> directory</li>
+                        <li>Add your demo files (HTML, CSS, JS, etc.)</li>
+                        <li>Update the <code>demos.json</code> file with your demo information</li>
+                        <li>Commit and push your changes</li>
+                    </ol>
+                    <p>The demo will automatically appear in this gallery!</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Colibri. Alpha versions for testing and development.</p>
+            <p>
+                <a href="https://github.com/Esteve32/colibri-alpha" target="_blank" rel="noopener">
+                    View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

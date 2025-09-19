@@ -1,0 +1,15 @@
+{
+  "demos": [
+    {
+      "title": "Sample Demo",
+      "description": "A sample demo to show how the system works. Replace this with your actual demos.",
+      "url": "./demos/sample-demo/index.html",
+      "icon": "🎨",
+      "status": "Alpha",
+      "tags": ["example", "template"],
+      "dateAdded": "2024-01-01",
+      "version": "0.1.0"
+    }
+  ],
+  "lastUpdated": "2024-01-01T00:00:00Z"
+}
