@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colibri Alpha - Demo Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="colibri-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <h1>Colibri Alpha</h1>
+            </div>
+            <p class="subtitle">Experimental Demos & Prototypes</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="intro">
+                <h2>Welcome to Colibri Alpha</h2>
+                <p>Explore our latest experimental features, prototypes, and alpha versions. Each demo represents cutting-edge development work ready for testing and feedback.</p>
+            </section>
+
+            <section class="demos-grid">
+                <h3>Available Demos</h3>
+                <div class="demos-container" id="demos-container">
+                    <!-- Demo cards will be populated here -->
+                    <div class="demo-card coming-soon">
+                        <div class="demo-icon">🚀</div>
+                        <h4>More Demos Coming Soon</h4>
+                        <p>New alpha features and prototypes will be added regularly. Check back often for the latest updates!</p>
+                        <div class="demo-status">Coming Soon</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="add-demo">
+                <div class="add-demo-card">
+                    <h3>Add a New Demo</h3>
+                    <p>To add a new demo to this gallery:</p>
+                    <ol>
+                        <li>Create a new folder in the <code>demos/</code> directory</li>
+                        <li>Add your demo files (HTML, CSS, JS, etc.)</li>
+                        <li>Update the <code>demos.json</code> file with your demo information</li>
+                        <li>Commit and push your changes</li>
+                    </ol>
+                    <p>The demo will automatically appear in this gallery!</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Colibri. Alpha versions for testing and development.</p>
+            <p>
+                <a href="https://github.com/Esteve32/colibri-alpha" target="_blank" rel="noopener">
+                    View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Colibri – Competitive Pricing Landscape</title>
+    <meta name="description" content="Interactive visualization comparing Colibri pricing against competitors." />
+
+    <!-- Tailwind CSS (CDN for quick prototype) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React 18 + ReactDOM (production builds) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+    <!-- Recharts UMD build -->
+    <script src="https://unpkg.com/recharts/umd/Recharts.min.js" crossorigin></script>
+
+    <!-- Babel Standalone to allow JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body { background: #f8fafc; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="env,react">
+      const { useState, useMemo } = React;
+      const {
+        ScatterChart,
+        Scatter,
+        XAxis,
+        YAxis,
+        ZAxis,
+        CartesianGrid,
+        Tooltip,
+        Legend,
+        ResponsiveContainer,
+        Cell,
+      } = Recharts;
+
+      // --- Helper Components ---
+      const CustomTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+          const data = payload[0].payload;
+          return (
+            <div className="p-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 text-sm">
+              <p className="font-bold text-gray-800">{data.name}</p>
+              <p className="text-gray-600"><strong>Focus:</strong> {data.focus}</p>
+              <p className="text-gray-600"><strong>Model:</strong> {data.model}</p>
+              {data.annualCost && (
+                <p className="text-gray-600">
+                  <strong>Est. Annual Cost (100 emp.):</strong> ${data.annualCost.toLocaleString()}
+                </p>
+              )}
+              <p className="text-gray-600"><strong>PUPM:</strong> {data.pupm}</p>
+              {data.notes && (
+                <p className="mt-2 text-xs text-blue-600 italic">{data.notes}</p>
+              )}
+            </div>
+          );
+        }
+        return null;
+      };
+
+      // --- Main App Component ---
+      function App() {
+        const [colibriBase, setColibriBase] = useState(1000);
+        const [colibriPupm, setColibriPupm] = useState(10);
+
+        const competitorData = useMemo(
+          () => [
+            // Direct Competitors
+            { name: 'Leapsome', category: 'Direct', model: 'Transparent PUPM', x: 1, annualCost: 14400, pupm: '~ $9-15', focus: 'All-in-One People Enablement' },
+            { name: '15Five', category: 'Direct', model: 'Transparent PUPM', x: 1, annualCost: 19200, pupm: '$16', focus: 'Manager Enablement' },
+            { name: 'Mirro.io', category: 'Direct', model: 'Transparent PUPM', x: 1, annualCost: 8100, pupm: '~ $6.50 - $9.00', focus: 'Social & Community Analytics (Est. from $6.75/user)' },
+            { name: 'Teamspective (Direct)', category: 'Direct', model: 'Transparent PUPM', x: 1, annualCost: 5200, pupm: 'Starts at €4', focus: 'ONA Specialist (Est. from €4 PUPM)' },
+            { name: 'Lattice', category: 'Direct', model: 'PUPM + Minimum', x: 2, annualCost: 18000, pupm: '$11 + add-ons', focus: 'Performance-Centric', notes: 'Requires a $4,000 minimum annual agreement.' },
+            { name: 'Culture Amp', category: 'Direct', model: 'Opaque', x: 3, annualCost: 21500, pupm: 'Quote-based', focus: 'People Science Incumbent', notes: 'Median estimate. Can range from $10k to $45k+.' },
+            { name: 'Workvivo', category: 'Direct', model: 'Opaque', x: 3, annualCost: 20000, pupm: 'Quote-based', focus: 'Internal Comms (Enterprise)', notes: 'Requires a $20,000 minimum annual agreement.' },
+
+            // Indirect Competitors (plotted for context)
+            { name: 'Teamspective (Indirect)', category: 'Indirect', model: 'Transparent PUPM', x: 1, annualCost: 3900, pupm: 'Starts at €3', focus: 'Niche ONA Specialist (Surveys)' },
+
+            // Opaque competitors (not plotted on cost axis but listed)
+            { name: 'BambooHR', category: 'Direct', model: 'Opaque', x: 3, annualCost: null, pupm: 'Quote-based', focus: 'Global HRIS/HCM' },
+            { name: 'Vantage Circle', category: 'Indirect', model: 'Opaque', x: 3, annualCost: null, pupm: 'Quote-based', focus: 'Global Employee Engagement' },
+            { name: 'HiBob (Bob)', category: 'Indirect', model: 'Opaque', x: 3, annualCost: null, pupm: 'Quote-based', focus: 'HRIS/HR/Payroll' },
+            { name: 'UKG', category: 'Indirect', model: 'Opaque', x: 3, annualCost: null, pupm: 'Quote-based', focus: 'HCM/Workforce Management' },
+          ],
+          []
+        );
+
+        const colibriAnnualCost = useMemo(() => {
+          const base = Number(colibriBase) || 0;
+          const pupm = Number(colibriPupm) || 0;
+          return base + pupm * 100 * 12;
+        }, [colibriBase, colibriPupm]);
+
+        const colibriData = [
+          {
+            name: 'Colibri (Your Pricing)',
+            category: 'You',
+            model: 'Transparent PUPM',
+            x: 1,
+            annualCost: colibriAnnualCost,
+            pupm: `CHF ${colibriPupm}`,
+            focus: 'Your Platform',
+          },
+        ];
+
+        const plottedData = competitorData.filter((c) => c.annualCost !== null);
+        const opaqueCompetitors = competitorData.filter((c) => c.annualCost === null);
+
+        const formatXAxis = (tickItem) => {
+          switch (tickItem) {
+            case 1:
+              return 'Transparent PUPM';
+            case 2:
+              return 'PUPM + Min. Contract';
+            case 3:
+              return 'Opaque / Quote-Based';
+            default:
+              return '';
+          }
+        };
+
+        return (
+          <div className="bg-slate-50 min-h-screen font-sans text-gray-800 p-4 sm:p-6 lg:p-8">
+            <div className="max-w-7xl mx-auto">
+              <header className="text-center mb-8">
+                <h1 className="text-3xl sm:text-4xl font-bold text-slate-800">Competitive Pricing Landscape</h1>
+                <p className="mt-2 text-slate-600 max-w-3xl mx-auto">
+                  Visualize your pricing against competitors based on their model transparency and estimated annual cost for a 100-employee company.
+                </p>
+              </header>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Main Chart Section */}
+                <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h2 className="text-xl font-semibold mb-4 text-slate-700">Competitor Positioning</h2>
+                  <div style={{ width: '100%', height: 500 }}>
+                    <ResponsiveContainer>
+                      <ScatterChart margin={{ top: 20, right: 30, bottom: 40, left: 50 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                        <XAxis
+                          dataKey="x"
+                          type="number"
+                          name="Pricing Model"
+                          domain={[0.5, 3.5]}
+                          ticks={[1, 2, 3]}
+                          tickFormatter={formatXAxis}
+                          angle={-15}
+                          textAnchor="end"
+                          height={60}
+                          label={{ value: 'Pricing Model Accessibility', position: 'insideBottom', offset: -25, dy: 20 }}
+                        />
+                        <YAxis
+                          dataKey="annualCost"
+                          type="number"
+                          name="Annual Cost (100 Employees)"
+                          unit="$"
+                          tickFormatter={(value) => `$${(value / 1000)}k`}
+                          label={{ value: 'Est. Annual Cost (USD)', angle: -90, position: 'insideLeft', dx: -20 }}
+                        />
+                        <ZAxis dataKey="annualCost" range={[60, 400]} name="cost" />
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
+                        <Legend verticalAlign="top" height={36} />
+
+                        <Scatter name="Direct Competitors" data={plottedData.filter((d) => d.category === 'Direct')} fill="#ef4444" shape="circle" />
+                        <Scatter name="Indirect Competitors" data={plottedData.filter((d) => d.category === 'Indirect')} fill="#3b82f6" shape="triangle" />
+                        <Scatter name="Colibri (You)" data={colibriData} fill="#22c55e" shape="star">
+                          {colibriData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill="#22c55e" stroke="#166534" strokeWidth={2} />
+                          ))}
+                        </Scatter>
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Controls and Summary Section */}
+                <div className="space-y-8">
+                  <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <h2 className="text-xl font-semibold mb-4 text-slate-700">Position Your Pricing (CHF)</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <label htmlFor="basePrice" className="block text-sm font-medium text-gray-700">
+                          Base Annual Price
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm">
+                          <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                            <span className="text-gray-500 sm:text-sm">CHF</span>
+                          </div>
+                          <input
+                            type="number"
+                            id="basePrice"
+                            className="block w-full rounded-md border-gray-300 pl-12 pr-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
+                            placeholder="1000"
+                            value={colibriBase}
+                            onChange={(e) => setColibriBase(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="pupmPrice" className="block text-sm font-medium text-gray-700">
+                          Per-Employee Per-Month (PUPM)
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm">
+                          <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                            <span className="text-gray-500 sm:text-sm">CHF</span>
+                          </div>
+                          <input
+                            type="number"
+                            id="pupmPrice"
+                            className="block w-full rounded-md border-gray-300 pl-12 pr-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
+                            placeholder="10"
+                            value={colibriPupm}
+                            onChange={(e) => setColibriPupm(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-sm text-green-800">Your Estimated Annual Cost (100 Employees):</p>
+                      <p className="text-2xl font-bold text-green-900">CHF {colibriAnnualCost.toLocaleString()}</p>
+                      <p className="text-xs text-green-700 mt-1">(Note: Chart Y-axis is in USD for comparison. Your pricing is shown as CHF.)</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <h3 className="text-lg font-semibold text-slate-700 mb-3">Opaque / Quote-Based Competitors</h3>
+                    <ul className="space-y-2 text-sm">
+                      {opaqueCompetitors.map((c) => (
+                        <li key={c.name} className="flex justify-between items-center p-2 bg-slate-50 rounded-md">
+                          <span className="font-medium text-slate-600">{c.name}</span>
+                          <span
+                            className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                              c.category === 'Direct' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                            }`}
+                          >
+                            {c.category}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 text-xs text-slate-500">
+                      These competitors target larger enterprises and their pricing isn't public, representing an opportunity in the SMB space with transparent models.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Key Takeaways */}
+              <div className="mt-8 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <h2 className="text-xl font-semibold mb-4 text-slate-700">Key Takeaways & Opportunities</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                  <div className="bg-sky-50 p-4 rounded-lg border border-sky-200">
+                    <h3 className="font-bold text-sky-800 mb-2">The "Accessibility Gap"</h3>
+                    <p className="text-sky-700">
+                      There's a clear gap between highly accessible, low-cost PUPM tools (like Teamspective, Mirro.io) and the high-commitment enterprise solutions (Lattice, Culture Amp, Workvivo).
+                      Your pricing can position Colibri as a comprehensive but accessible alternative.
+                    </p>
+                  </div>
+                  <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                    <h3 className="font-bold text-amber-800 mb-2">PUPM is the LEAN Standard</h3>
+                    <p className="text-amber-700">
+                      The most direct and modern competitors favor transparent PUPM pricing. This aligns with LEAN principles and is likely expected by your target market of high-growth startups and SMBs. Opaque pricing creates friction.
+                    </p>
+                  </div>
+                  <div className="bg-rose-50 p-4 rounded-lg border border-rose-200">
+                    <h3 className="font-bold text-rose-800 mb-2">The Enterprise Barrier</h3>
+                    <p className="text-rose-700">
+                      Competitors like Lattice and Workvivo create a cost barrier with high minimum contracts ($4k-$20k).
+                      A model with a low base fee and scalable PUPM cost is a significant competitive advantage for companies with fewer than 100-150 employees.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+
