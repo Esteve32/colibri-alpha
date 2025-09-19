@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadDemos() {
     try {
-        const response = await fetch('demos.json');
+        const response = await fetch(`demos.json?v=${Date.now()}`);
         if (!response.ok) {
             console.log('No demos.json found, showing default state');
             return;
