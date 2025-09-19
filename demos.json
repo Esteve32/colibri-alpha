@@ -1,1 +1,35 @@
-{\n  "demos": [\n    {\n      "title": "Sample Demo",\n      "description": "A sample demo to show how the system works. Replace this with your actual demos.",\n      "url": "./demos/sample-demo/index.html",\n      "icon": "🎨",\n      "status": "Alpha",\n      "tags": ["example", "template"],\n      "dateAdded": "2024-01-01",\n      "version": "0.1.0"\n    },\n    {\n      "title": "Competitive Pricing Landscape",\n      "description": "Interactive visualization comparing Colibri pricing against competitors.",\n      "url": "./demos/competitive-pricing/index.html",\n      "icon": "📊",\n      "status": "Alpha",\n      "tags": ["pricing", "visualization", "react", "recharts", "tailwind"],\n      "dateAdded": "2025-09-19",\n      "version": "0.1.0"\n    }\n  ],\n  "lastUpdated": "2025-09-19T18:55:32Z"\n}
+{
+  "demos": [
+    {
+      "title": "Sample Demo",
+      "description": "A sample demo to show how the system works. Replace this with your actual demos.",
+      "url": "./demos/sample-demo/index.html",
+      "icon": "🎨",
+      "status": "Alpha",
+      "tags": ["example", "template"],
+      "dateAdded": "2024-01-01",
+      "version": "0.1.0"
+    },
+    {
+      "title": "Competitive Pricing Landscape",
+      "description": "Interactive visualization comparing Colibri pricing against competitors.",
+      "url": "./demos/competitive-pricing/index.html",
+      "icon": "📊",
+      "status": "Alpha",
+      "tags": ["pricing", "visualization", "react", "recharts", "tailwind"],
+      "dateAdded": "2025-09-19",
+      "version": "0.1.0"
+    },
+    {
+      "title": "Colibri Interactive Dashboard",
+      "description": "AI-powered organizational nervous system dashboard showcasing CHI diagnostics and SRME prescriptive insights.",
+      "url": "./demos/colibri-dashboard/index.html",
+      "icon": "🧠",
+      "status": "Alpha",
+      "tags": ["dashboard", "ai", "culture", "analytics", "charts", "tailwind"],
+      "dateAdded": "2024-09-19",
+      "version": "0.1.0"
+    }
+  ],
+  "lastUpdated": "2024-09-19T19:30:00Z"
+}
