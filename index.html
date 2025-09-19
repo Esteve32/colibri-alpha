@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colibri Alpha - Browser & Software Element Demos</title>
+    
+    <!-- Meta tags for proper URL sharing -->
+    <meta name="description" content="Alpha versions of browser and software elements for testing and iterative design - Interactive demos and prototypes">
+    <meta name="author" content="Colibri Alpha">
+    <meta name="keywords" content="colibri, alpha, browser, software, elements, demos, prototypes, testing">
+    
+    <!-- Open Graph meta tags for social media sharing -->
+    <meta property="og:title" content="Colibri Alpha - Interactive Demos">
+    <meta property="og:description" content="Alpha versions of browser and software elements for testing and iterative design">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://esteve32.github.io/colibri-alpha/">
+    <meta property="og:site_name" content="Colibri Alpha">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Colibri Alpha - Interactive Demos">
+    <meta name="twitter:description" content="Alpha versions of browser and software elements for testing and iterative design">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23007acc' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .url-info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .url-info h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .url-display {
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .copy-btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #005a9e;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .demo-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .demo-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-weight: 500;
+            width: 100%;
+        }
+        
+        .demo-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .settings-info {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .settings-info h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .settings-list {
+            list-style: none;
+        }
+        
+        .settings-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .settings-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .status-check {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            padding: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐦 Colibri Alpha</h1>
+            <p class="subtitle">Alpha versions of browser and software elements for testing and iterative design</p>
+        </header>
+        
+        <div class="url-info">
+            <h2>📍 Demo URL Information</h2>
+            <div class="url-display" id="demo-url">
+                https://esteve32.github.io/colibri-alpha/
+            </div>
+            <button class="copy-btn" onclick="copyURL()">📋 Copy URL</button>
+            <p style="color: white; margin-top: 1rem; opacity: 0.9;">
+                Share this URL to provide direct browser access to all demos and prototypes.
+            </p>
+        </div>
+        
+        <div class="settings-info">
+            <h2>⚙️ GitHub Pages Configuration Status</h2>
+            <ul class="settings-list">
+                <li>
+                    <span>Repository Public Access</span>
+                    <span class="status-check">✅ Enabled</span>
+                </li>
+                <li>
+                    <span>GitHub Pages Source</span>
+                    <span class="status-pending">⚠️ Needs Configuration</span>
+                </li>
+                <li>
+                    <span>Custom Domain</span>
+                    <span class="status-pending">⚠️ Optional</span>
+                </li>
+                <li>
+                    <span>HTTPS Enforcement</span>
+                    <span class="status-check">✅ Recommended</span>
+                </li>
+                <li>
+                    <span>Index File Present</span>
+                    <span class="status-check">✅ index.html</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>🎨 UI Component Demos</h3>
+                <p>Interactive demonstrations of browser UI elements, buttons, forms, and navigation components in various alpha stages.</p>
+                <button class="demo-btn" onclick="openDemo('ui-components')">Launch UI Demos</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🧪 Software Element Tests</h3>
+                <p>Alpha versions of software elements for testing functionality, performance, and user interaction patterns.</p>
+                <button class="demo-btn" onclick="openDemo('software-elements')">Launch Software Tests</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🎭 Interactive Prototypes</h3>
+                <p>Early-stage prototypes for browser features and software functionality, designed for iterative feedback and testing.</p>
+                <button class="demo-btn" onclick="openDemo('prototypes')">Launch Prototypes</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3>📊 Performance Benchmarks</h3>
+                <p>Alpha testing tools for measuring and comparing performance of different browser and software element implementations.</p>
+                <button class="demo-btn" onclick="openDemo('benchmarks')">Launch Benchmarks</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🔧 Developer Tools</h3>
+                <p>Alpha versions of development utilities and tools for testing, debugging, and optimizing browser elements.</p>
+                <button class="demo-btn" onclick="openDemo('dev-tools')">Launch Dev Tools</button>
+            </div>
+            
+            <div class="demo-card">
+                <h3>📱 Responsive Design Tests</h3>
+                <p>Cross-platform and responsive design testing for various screen sizes, devices, and browser environments.</p>
+                <button class="demo-btn" onclick="openDemo('responsive')">Launch Responsive Tests</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Colibri Alpha Project | Open Source Testing & Design Platform</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                🔗 Direct link sharing enabled | 📱 Mobile responsive | 🌐 Cross-browser compatible
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        function copyURL() {
+            const url = document.getElementById('demo-url').textContent;
+            navigator.clipboard.writeText(url).then(function() {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+        
+        function openDemo(demoType) {
+            const demoUrls = {
+                'ui-components': './demos/ui-components/',
+                'software-elements': './demos/software-elements/',
+                'prototypes': './demos/prototypes/',
+                'benchmarks': './demos/benchmarks/',
+                'dev-tools': './demos/dev-tools/',
+                'responsive': './demos/responsive/'
+            };
+            
+            if (demoUrls[demoType]) {
+                // Check if demo exists, if not show coming soon message
+                if (demoType === 'ui-components') {
+                    window.open(demoUrls[demoType], '_blank');
+                } else {
+                    alert(`${demoType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} demo coming soon!\n\nWill be available at: ${demoUrls[demoType]}`);
+                }
+            }
+        }
+        
+        // Update URL dynamically if needed
+        function updateURL() {
+            const currentURL = window.location.href;
+            document.getElementById('demo-url').textContent = currentURL;
+        }
+        
+        // Call on page load
+        window.addEventListener('load', updateURL);
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+# GitHub Pages / Jekyll Configuration for Colibri Alpha
+
+# Site settings
+title: "Colibri Alpha"
+description: "Alpha versions of browser and software elements for testing and iterative design"
+baseurl: "/colibri-alpha"
+url: "https://esteve32.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - .git/
+  - .gitignore
+
+# Include files
+include:
+  - _pages
+
+# Collections
+collections:
+  demos:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "demos"
+    values:
+      layout: "demo"
+
+# SEO settings
+author: "Colibri Alpha Team"
+social:
+  name: "Colibri Alpha"
+  links:
+    - "https://github.com/Esteve32/colibri-alpha"
+
+# GitHub Pages specific settings
+repository: "Esteve32/colibri-alpha"
+github_username: "Esteve32"

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Components Demo - Colibri Alpha</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #007acc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .demo-section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #007acc;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #005a9e;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        
+        .form-demo {
+            max-width: 400px;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #007acc;
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.25);
+        }
+        
+        .card-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Main Demos</a>
+        
+        <h1>🎨 UI Components Demo</h1>
+        
+        <div class="demo-section">
+            <h2>Buttons</h2>
+            <div class="button-demo">
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-success">Success Button</button>
+            </div>
+            <p><em>Alpha version: Testing hover effects and responsive behavior</em></p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Form Elements</h2>
+            <div class="form-demo">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option>Web Development</option>
+                        <option>UI/UX Design</option>
+                        <option>Testing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="4" placeholder="Enter your message"></textarea>
+                </div>
+                <button class="btn btn-primary">Submit</button>
+            </div>
+            <p><em>Alpha version: Testing form validation and accessibility</em></p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Cards</h2>
+            <div class="card-demo">
+                <div class="card">
+                    <h3>Feature A</h3>
+                    <p>This is an alpha version of a card component for displaying content in a structured layout.</p>
+                </div>
+                <div class="card">
+                    <h3>Feature B</h3>
+                    <p>Testing responsive behavior and hover interactions across different screen sizes.</p>
+                </div>
+                <div class="card">
+                    <h3>Feature C</h3>
+                    <p>Evaluating visual hierarchy and content organization within card layouts.</p>
+                </div>
+            </div>
+            <p><em>Alpha version: Testing responsive grid and hover states</em></p>
+        </div>
+    </div>
+    
+    <script>
+        // Add some interactivity for demo purposes
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // Form demo functionality
+        document.querySelector('.form-demo .btn-primary').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Form submitted! (This is just a demo)');
+        });
+    </script>
+</body>
+</html>
