@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colibri Interactive Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Back link to gallery as recommended by demo template -->
+    <style>
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .back-link:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The application is structured as a two-part dashboard to create an intuitive user flow that mirrors a diagnostic-to-prescriptive process. The first section, the Culture Homeostasis Index (CHI) Dashboard, serves as the diagnostic hub, presenting the overall cultural health score and its constituent parts. This allows a user to quickly grasp the 'what' and 'where' of potential cultural issues. The second section, the Semantic Rule Matching Engine (SRME) Monitor, acts as the prescriptive solution center. It shows 'how' the system addresses the diagnosed issues through value-driven rules and habits. This logical separation prevents information overload and guides the user from understanding the problem to exploring the solutions, making a complex system easily digestible. -->
+    <!-- Visualization & Content Choices: 
+        - Overall CHI Score: Report Info -> Normalized CHI score. Goal -> Inform. Viz -> Doughnut Chart (Gauge). Interaction -> Hover for context. Justification -> A gauge provides an immediate, high-level summary of cultural health, acting as a "cultural thermometer" as described. Library -> Chart.js.
+        - CHI by Domain: Report Info -> CHI inputs tagged by cultural domain. Goal -> Compare. Viz -> Radar Chart. Interaction -> Hover over points for details. Justification -> A radar chart is ideal for showing the balance or imbalance across the four distinct cultural domains (Human, Org, etc.), highlighting areas of strength or weakness. Library -> Chart.js.
+        - CHI Input Signals: Report Info -> Raw chi_input data points. Goal -> Organize/Explore. Viz -> Interactive HTML Table. Interaction -> Filter by Data Type and Impact Level. Justification -> A filterable table allows users to drill down into the specific signals that contribute to the overall scores, providing transparency and deeper analysis. Method -> Vanilla JS DOM manipulation.
+        - Core Value Rules: Report Info -> The five core 'value_rule' entities. Goal -> Organize/Navigate. Viz -> Clickable Cards. Interaction -> Click to filter SRME rules. Justification -> Cards provide a visually appealing and intuitive navigation method to explore the foundation of the SRME system. Method -> HTML/Tailwind/JS.
+        - SRME Rules Display: Report Info -> srme_rule details. Goal -> Inform. Viz -> Dynamic Text Blocks and Lists. Interaction -> Content updates based on selected Value Rule. Justification -> This provides a clear, contextual view of the actionable rules, linking them directly to the core values they support. Method -> Vanilla JS DOM manipulation.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .value-card.active {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px #4f46e5;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Back link to gallery -->
+    <a href="../../index.html" class="back-link">← Back to Gallery</a>
+
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Colibri OS Dashboard</h1>
+                <nav class="mt-3 sm:mt-0 flex space-x-2 bg-gray-100 p-1 rounded-lg">
+                    <button id="nav-chi" class="nav-button active text-sm font-medium py-2 px-4 rounded-md">CHI Dashboard</button>
+                    <button id="nav-srme" class="nav-button text-sm font-medium py-2 px-4 rounded-md">SRME Monitor</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <section id="intro-section" class="mb-8 text-center">
+             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                This dashboard provides an interactive view of the Colibri algorithm, an AI-powered organizational nervous system for cultural health. Explore the diagnostic <span class="font-semibold text-indigo-600">Culture Homeostasis Index (CHI)</span> and the prescriptive <span class="font-semibold text-indigo-600">Semantic Rule Matching Engine (SRME)</span>.
+            </p>
+        </section>
+
+        <!-- CHI Dashboard Section -->
+        <section id="chi-section">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                    <div class="card bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-bold mb-1 text-center">Culture Homeostasis Index (CHI)</h2>
+                        <p class="text-sm text-gray-500 mb-4 text-center">A normalized score from -2 (critical) to +2 (thriving).</p>
+                        <div class="chart-container h-64 md:h-auto">
+                            <canvas id="chiGaugeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-bold mb-1 text-center">CHI by Cultural Domain</h2>
+                        <p class="text-sm text-gray-500 mb-4 text-center">Diagnoses cultural health at a quadrant level.</p>
+                        <div class="chart-container h-64 md:h-auto">
+                            <canvas id="chiDomainChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3 card bg-white p-6 rounded-xl shadow-md min-h-[500px]">
+                    <h2 class="text-xl font-bold mb-2">CHI Input Signals Explorer</h2>
+                    <p class="text-sm text-gray-500 mb-4">Drill down into the raw data points that contribute to the CHI score. Use the filters to refine the signals shown below.</p>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <div>
+                            <label for="dataTypeFilter" class="block text-sm font-medium text-gray-700">Data Type</label>
+                            <select id="dataTypeFilter" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option>All</option>
+                                <option>Think</option>
+                                <option>Say</option>
+                                <option>Do</option>
+                                <option>Feel</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="impactLevelFilter" class="block text-sm font-medium text-gray-700">Impact Level</label>
+                            <select id="impactLevelFilter" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option>All</option>
+                                <option>Micro</option>
+                                <option>Meso</option>
+                                <option>Macro</option>
+                                <option>Mundo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Signal</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Domain</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Impact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="chiSignalsTable" class="bg-white divide-y divide-gray-200">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SRME Monitor Section -->
+        <section id="srme-section" class="hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">SRME Monitor</h2>
+                <p class="mt-2 text-md text-gray-600 max-w-2xl mx-auto">Explore how Colibri translates cultural signals into actionable behaviors through its core values. Select a value to see the associated rules and micro-habits.</p>
+            </div>
+            <div id="valueRulesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Triggered Rules</h3>
+                    <div id="srmeRulesList" class="space-y-4">
+                       <p class="text-gray-500">Select a value above to see rules.</p>
+                    </div>
+                </div>
+                <div class="card bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4">Rule Details</h3>
+                    <div id="srmeRuleDetail" class="space-y-3">
+                        <p class="text-gray-500">Select a rule from the left to see details.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const data = {
+        chi_input: [
+            { data_type: 'Feel', impact_level: 'Micro', confidence_score: 0.85, source_view: 'Internal', signal_input: 'Pulse survey shows high burnout sentiment in the design team.', cultural_domain_anchor: 'Human' },
+            { data_type: 'Say', impact_level: 'Meso', confidence_score: 0.90, source_view: 'External', signal_input: 'Social media brand sentiment analysis shows a 15% drop in positive mentions.', cultural_domain_anchor: 'Environmental' },
+            { data_type: 'Do', impact_level: 'Macro', confidence_score: 0.95, source_view: 'Internal', signal_input: 'Calendar metadata analysis shows 80% of meetings have more than 10 attendees.', cultural_domain_anchor: 'Operational' },
+            { data_type: 'Think', impact_level: 'Meso', confidence_score: 0.75, source_view: 'Internal', signal_input: 'Low engagement with strategic documents on the company intranet.', cultural_domain_anchor: 'Organizational' },
+            { data_type: 'Feel', impact_level: 'Meso', confidence_score: 0.80, source_view: 'Internal', signal_input: 'Exit interviews frequently mention lack of growth opportunities.', cultural_domain_anchor: 'Human' },
+             { data_type: 'Do', impact_level: 'Mundo', confidence_score: 0.98, source_view: 'External', signal_input: 'Company received a negative rating on a major sustainability index.', cultural_domain_anchor: 'Environmental' }
+        ],
+        srme_rule: [
+            { id: 'PS-ASK-DISSENT-001', value_rule_name: 'Psychological Safety', trigger: 'Dissent rate in meetings is less than 0.1 for the last 30 days.', impact_level: 'Meso', behavioral_rule: 'Leaders open meetings by inviting two dissenting views first.', micro_habit: 'DM one teammate daily for unfiltered feedback.', owner_role: 'Team Lead', success_signal: 'Dissent rate is greater than or equal to 0.35 within 30 days of activation.', cooldown_days: 60 },
+            { id: 'CI-RETRO-001', value_rule_name: 'Continuous Improvement', trigger: 'Less than 50% of teams complete their bi-weekly retrospectives.', impact_level: 'Meso', behavioral_rule: 'Block 1 hour for mandatory, no-reschedule retrospectives in team calendars.', micro_habit: 'Start each day by reviewing one action item from the last retro.', owner_role: 'Scrum Master', success_signal: '90% of teams complete retrospectives for 3 consecutive sprints.', cooldown_days: 30 },
+            { id: 'CC-FEEDBACK-001', value_rule_name: 'Conscious Communication', trigger: 'Peer feedback volume is down 30% quarter-over-quarter.', impact_level: 'Micro', behavioral_rule: 'In 1:1s, managers must ask "What feedback do you have for me?".', micro_habit: 'Use a specific feedback framework (e.g., STAR) once a week.', owner_role: 'Manager', success_signal: 'Peer feedback volume increases by 20%.', cooldown_days: 45 },
+            { id: 'TU-PRAISE-001', value_rule_name: 'Team Unity', trigger: 'Public praise channel has been inactive for 7 days.', impact_level: 'Micro', behavioral_rule: 'At the end of team meetings, each member gives a shout-out to a colleague.', micro_habit: 'Post one message of praise in a public channel each week.', owner_role: 'Team Member', success_signal: 'Praise channel has at least 5 posts per week.', cooldown_days: 14 },
+            { id: 'I-DECISION-LOG-001', value_rule_name: 'Integrity', trigger: 'Key project decisions are not documented in the central wiki.', impact_level: 'Macro', behavioral_rule: 'All decisions made in meetings with >5 people must have a documented owner and rationale.', micro_habit: 'Before ending a meeting, ask "Who is documenting this decision?".', owner_role: 'Project Manager', success_signal: '100% of key decisions are logged within 24 hours.', cooldown_days: 90 }
+        ],
+        value_rule: [
+            { name: 'Psychological Safety', description: 'Fostering an environment where team members feel safe to take risks and be vulnerable.' },
+            { name: 'Continuous Improvement', description: 'A commitment to constantly iterating and improving processes, products, and personal skills.' },
+            { name: 'Conscious Communication', description: 'Promoting clear, respectful, and mindful communication to build understanding and trust.' },
+            { name: 'Team Unity', description: 'Cultivating a sense of belonging and collective purpose, where team success is prioritized.' },
+            { name: 'Integrity', description: 'Adhering to strong moral and ethical principles, being honest and transparent in all actions.' }
+        ]
+    };
+
+    const weights = {
+        data_type: { Feel: 5, Say: 3, Do: 2, Think: 1 },
+        impact_level: { Micro: 1, Meso: 3, Macro: 8, Mundo: 21 }
+    };
+
+    let chiGaugeChart, chiDomainChart;
+
+    function calculateCHI() {
+        let totalScore = 0;
+        let maxScore = 0;
+        const domainScores = { Human: 0, Organizational: 0, Operational: 0, Environmental: 0 };
+        const domainCounts = { Human: 0, Organizational: 0, Operational: 0, Environmental: 0 };
+
+        data.chi_input.forEach(input => {
+            const score = (weights.data_type[input.data_type] || 0) * (weights.impact_level[input.impact_level] || 0) * input.confidence_score;
+            totalScore += score;
+            domainScores[input.cultural_domain_anchor] += score;
+            domainCounts[input.cultural_domain_anchor] += 1;
+            
+            const maxPossible = (weights.data_type[input.data_type] || 0) * (weights.impact_level[input.impact_level] || 0) * 1.0;
+            maxScore += maxPossible;
+        });
+
+        const avgDomainScores = Object.keys(domainScores).map(key => domainCounts[key] > 0 ? domainScores[key] / domainCounts[key] : 0);
+        const normalizedScore = maxScore > 0 ? (totalScore / maxScore) * 4 - 2 : 0;
+        
+        return {
+            normalizedScore: parseFloat(normalizedScore.toFixed(2)),
+            domainScores: avgDomainScores
+        };
+    }
+
+    function renderChiGaugeChart(score) {
+        const ctx = document.getElementById('chiGaugeChart').getContext('2d');
+        const scoreData = (score + 2) * 25; 
+        const color = score < -1 ? '#ef4444' : score < 0.5 ? '#f97316' : '#22c55e';
+        
+        if (chiGaugeChart) chiGaugeChart.destroy();
+        chiGaugeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Score', ''],
+                datasets: [{
+                    data: [scoreData, 100 - scoreData],
+                    backgroundColor: [color, '#e5e7eb'],
+                    borderColor: ['#ffffff'],
+                    borderWidth: 2,
+                    circumference: 180,
+                    rotation: 270,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                },
+                cutout: '70%',
+            },
+            plugins: [{
+                id: 'gaugeText',
+                afterDraw(chart) {
+                    const { ctx, chartArea: { width, height } } = chart;
+                    ctx.save();
+                    ctx.font = 'bold 36px Inter';
+                    ctx.fillStyle = color;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(score, width / 2, height / 2 + 30);
+                    ctx.restore();
+                }
+            }]
+        });
+    }
+
+    function renderChiDomainChart(scores) {
+        const ctx = document.getElementById('chiDomainChart').getContext('2d');
+        if (chiDomainChart) chiDomainChart.destroy();
+        chiDomainChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Human', 'Organizational', 'Operational', 'Environmental'],
+                datasets: [{
+                    label: 'Avg. Weighted Score',
+                    data: scores,
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                    borderColor: 'rgba(79, 70, 229, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(79, 70, 229, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#d1d5db' },
+                        grid: { color: '#e5e7eb' },
+                        pointLabels: { font: { size: 12 } },
+                        ticks: { backdropColor: 'transparent', display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    function renderChiSignalsTable() {
+        const tableBody = document.getElementById('chiSignalsTable');
+        const dataTypeFilter = document.getElementById('dataTypeFilter').value;
+        const impactLevelFilter = document.getElementById('impactLevelFilter').value;
+        
+        const filteredData = data.chi_input.filter(item => {
+            const dataTypeMatch = dataTypeFilter === 'All' || item.data_type === dataTypeFilter;
+            const impactLevelMatch = impactLevelFilter === 'All' || item.impact_level === impactLevelFilter;
+            return dataTypeMatch && impactLevelMatch;
+        });
+
+        tableBody.innerHTML = filteredData.map(item => `
+            <tr>
+                <td class="px-4 py-3 text-sm text-gray-800">${item.signal_input}</td>
+                <td class="px-4 py-3 text-sm text-gray-500 hidden sm:table-cell">${item.cultural_domain_anchor}</td>
+                <td class="px-4 py-3 text-sm text-gray-500"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">${item.data_type}</span></td>
+                <td class="px-4 py-3 text-sm text-gray-500"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">${item.impact_level}</span></td>
+            </tr>
+        `).join('');
+    }
+
+    function renderValueRules() {
+        const container = document.getElementById('valueRulesContainer');
+        container.innerHTML = data.value_rule.map(rule => `
+            <div class="value-card card bg-white p-4 rounded-lg shadow-md cursor-pointer border-2 border-transparent" data-value-name="${rule.name}">
+                <h4 class="font-bold text-md text-gray-900">${rule.name}</h4>
+                <p class="text-xs text-gray-500 mt-1">${rule.description}</p>
+            </div>
+        `).join('');
+    }
+    
+    function renderSrmeRules(valueName) {
+        const listContainer = document.getElementById('srmeRulesList');
+        const detailContainer = document.getElementById('srmeRuleDetail');
+        
+        const filteredRules = data.srme_rule.filter(rule => rule.value_rule_name === valueName);
+        
+        if(filteredRules.length > 0) {
+            listContainer.innerHTML = filteredRules.map((rule, index) => `
+                <div class="p-3 rounded-lg cursor-pointer hover:bg-gray-100 srme-rule-item ${index === 0 ? 'bg-gray-100' : ''}" data-rule-id="${rule.id}">
+                    <p class="font-semibold text-sm">${rule.id}</p>
+                    <p class="text-xs text-gray-600">${rule.behavioral_rule}</p>
+                </div>
+            `).join('');
+            renderSrmeDetail(filteredRules[0].id);
+        } else {
+            listContainer.innerHTML = '<p class="text-gray-500">No rules found for this value.</p>';
+            detailContainer.innerHTML = '<p class="text-gray-500">Select a rule from the left to see details.</p>';
+        }
+
+        document.querySelectorAll('.srme-rule-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.srme-rule-item').forEach(i => i.classList.remove('bg-gray-100'));
+                item.classList.add('bg-gray-100');
+                renderSrmeDetail(item.dataset.ruleId);
+            });
+        });
+    }
+
+    function renderSrmeDetail(ruleId) {
+        const detailContainer = document.getElementById('srmeRuleDetail');
+        const rule = data.srme_rule.find(r => r.id === ruleId);
+        
+        if (rule) {
+            detailContainer.innerHTML = `
+                <div><strong class="font-medium text-gray-900">ID:</strong> <span class="text-gray-600 font-mono text-sm">${rule.id}</span></div>
+                <div><strong class="font-medium text-gray-900">Trigger:</strong> <span class="text-gray-600">${rule.trigger}</span></div>
+                <div><strong class="font-medium text-gray-900">Behavioral Rule:</strong> <span class="text-gray-600">${rule.behavioral_rule}</span></div>
+                <div><strong class="font-medium text-gray-900">Micro-Habit:</strong> <span class="text-gray-600">${rule.micro_habit}</span></div>
+                <div><strong class="font-medium text-gray-900">Success Signal:</strong> <span class="text-gray-600">${rule.success_signal}</span></div>
+                <div class="flex items-center gap-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">Owner: ${rule.owner_role}</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-yellow-100 text-yellow-800">Impact: ${rule.impact_level}</span>
+                </div>
+            `;
+        }
+    }
+    
+    function setupEventListeners() {
+        document.getElementById('dataTypeFilter').addEventListener('change', renderChiSignalsTable);
+        document.getElementById('impactLevelFilter').addEventListener('change', renderChiSignalsTable);
+        
+        document.getElementById('nav-chi').addEventListener('click', () => switchTab('chi'));
+        document.getElementById('nav-srme').addEventListener('click', () => switchTab('srme'));
+        
+        document.getElementById('valueRulesContainer').addEventListener('click', (e) => {
+            const card = e.target.closest('.value-card');
+            if(card) {
+                document.querySelectorAll('.value-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                renderSrmeRules(card.dataset.valueName);
+            }
+        });
+    }
+    
+    function switchTab(tab) {
+        if(tab === 'chi') {
+            document.getElementById('chi-section').classList.remove('hidden');
+            document.getElementById('srme-section').classList.add('hidden');
+            document.getElementById('nav-chi').classList.add('active');
+            document.getElementById('nav-srme').classList.remove('active');
+        } else {
+            document.getElementById('chi-section').classList.add('hidden');
+            document.getElementById('srme-section').classList.remove('hidden');
+            document.getElementById('nav-chi').classList.remove('active');
+            document.getElementById('nav-srme').classList.add('active');
+        }
+    }
+
+    function init() {
+        const chiData = calculateCHI();
+        renderChiGaugeChart(chiData.normalizedScore);
+        renderChiDomainChart(chiData.domainScores);
+        renderChiSignalsTable();
+        
+        renderValueRules();
+        setupEventListeners();
+    }
+
+    init();
+});
+</script>
+</body>
+</html>
