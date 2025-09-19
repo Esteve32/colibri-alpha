@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Price Calculator</h1>
+        <div class="calculator-form">
+            <div class="input-group">
+                <label for="product-select">Select Product:</label>
+                <select id="product-select">
+                    <option value="">Choose a product...</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" min="1" value="1">
+            </div>
+            
+            <div class="input-group">
+                <label for="discount">Discount (%):</label>
+                <input type="number" id="discount" min="0" max="100" value="0" step="0.1">
+            </div>
+            
+            <div class="input-group">
+                <label for="tax">Tax Rate (%):</label>
+                <input type="number" id="tax" min="0" max="100" value="10" step="0.1">
+            </div>
+            
+            <button id="calculate-btn">Calculate Price</button>
+            
+            <div class="result-section">
+                <div class="result-item">
+                    <span class="label">Base Price:</span>
+                    <span id="base-price" class="value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Subtotal:</span>
+                    <span id="subtotal" class="value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Discount:</span>
+                    <span id="discount-amount" class="value">-$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">After Discount:</span>
+                    <span id="after-discount" class="value">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Tax:</span>
+                    <span id="tax-amount" class="value">$0.00</span>
+                </div>
+                <div class="result-item total">
+                    <span class="label">Total Price:</span>
+                    <span id="total-price" class="value">$0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

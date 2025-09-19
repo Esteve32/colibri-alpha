@@ -1,0 +1,79 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Laptop Computer",
+      "price": 899.99,
+      "category": "Electronics",
+      "description": "High-performance laptop for work and gaming"
+    },
+    {
+      "id": 2,
+      "name": "Wireless Mouse",
+      "price": 29.99,
+      "category": "Accessories",
+      "description": "Ergonomic wireless mouse with precision tracking"
+    },
+    {
+      "id": 3,
+      "name": "Mechanical Keyboard",
+      "price": 129.99,
+      "category": "Accessories",
+      "description": "RGB backlit mechanical keyboard with blue switches"
+    },
+    {
+      "id": 4,
+      "name": "Monitor 24\"",
+      "price": 199.99,
+      "category": "Electronics",
+      "description": "Full HD 24-inch monitor with IPS panel"
+    },
+    {
+      "id": 5,
+      "name": "USB-C Hub",
+      "price": 49.99,
+      "category": "Accessories",
+      "description": "Multi-port USB-C hub with HDMI and USB 3.0"
+    },
+    {
+      "id": 6,
+      "name": "Webcam HD",
+      "price": 79.99,
+      "category": "Electronics",
+      "description": "1080p HD webcam with auto-focus"
+    },
+    {
+      "id": 7,
+      "name": "Headphones",
+      "price": 159.99,
+      "category": "Audio",
+      "description": "Noise-cancelling over-ear headphones"
+    },
+    {
+      "id": 8,
+      "name": "Smartphone",
+      "price": 699.99,
+      "category": "Electronics",
+      "description": "Latest flagship smartphone with 128GB storage"
+    },
+    {
+      "id": 9,
+      "name": "Tablet",
+      "price": 329.99,
+      "category": "Electronics",
+      "description": "10-inch tablet with high-resolution display"
+    },
+    {
+      "id": 10,
+      "name": "Smartwatch",
+      "price": 249.99,
+      "category": "Wearables",
+      "description": "Fitness tracking smartwatch with GPS"
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-09-19",
+    "currency": "USD",
+    "totalProducts": 10
+  }
+}
