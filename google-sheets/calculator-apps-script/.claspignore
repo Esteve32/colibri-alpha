@@ -1,0 +1,26 @@
+# Ignore dependency and build artifacts
+node_modules/**
+build/**
+dist/**
+
+# TypeScript sources and maps (if used later)
+**/*.ts
+**/*.tsx
+**/*.d.ts
+**/*.map
+
+# Project and tooling metadata
+package*.json
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
+tsconfig.json
+.eslintrc*
+.prettierrc*
+.editorconfig
+README.md
+*.md
+
+# Keep Apps Script sources
+!appsscript.json
+!Code.js
