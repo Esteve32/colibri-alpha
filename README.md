@@ -1,71 +1,47 @@
-# Colibri Alpha — Arbora OS Experimentation Playground
+# colibri-alpha  
+Alpha versions of browser and software elements for testing and iterative design.
 
-Colibri Alpha is an experimentation playground for **Arbora OS** — a space to rapidly prototype, test, and iterate on browser-based and software interface concepts before they mature into stable components.
+## 🚀 Live Demo Gallery
+Visit the live demo gallery at:  
+https://esteve32.github.io/colibri-alpha/
 
-## Purpose
+## 📝 About
+This repository hosts alpha versions and experimental demos for Colibri projects.  
+The main site provides a branded gallery interface where visitors can browse and launch in-progress prototypes directly in the browser.
 
-This repository is designed for:
+## 🎯 Quick Start
+- Open the live gallery to explore current demos.
+- Click any demo card to launch the prototype.
+- Use in-app navigation to return to the gallery and continue testing.
 
-- Exploring early-stage ideas for Arbora OS experiences
-- Building and validating UI/UX concepts quickly
-- Testing interaction patterns, component behavior, and workflows
-- Running lightweight alpha experiments in a safe, isolated environment
+## ➕ Adding New Demos
+To add a new demo to the gallery:
 
-Colibri Alpha prioritizes **speed of iteration over production stability**.
+1. Create a demo folder under `demos/` (for example: `demos/your-demo-name/`).
+2. Add or update your demo metadata in `demos.json`.
+3. Commit and push your changes — the gallery reads from the JSON configuration and surfaces new entries automatically.
 
-## Scope
-
-Typical experiments may include:
-
-- Browser and web interface prototypes
-- Component behavior studies
-- Styling and layout iterations
-- Micro-feature validation
-- Usability-focused proof-of-concepts
-
-Anything in this repository should be considered **alpha quality** and subject to change or removal without notice.
-
-## Tech Profile
-
-Current language composition:
-
-- JavaScript (primary)
-- HTML
-- CSS
-
-This stack supports fast prototyping and front-end experimentation aligned with Arbora OS design direction.
-
-## Repository Principles
-
-- **Experiment first**: validate ideas quickly
-- **Keep changes small**: favor short feedback loops
-- **Document intent**: each experiment should state what it is trying to learn
-- **Expect churn**: refactors and deletions are normal in alpha work
-
-## Getting Started
-
-```bash
-git clone https://github.com/Esteve32/colibri-alpha.git
-cd colibri-alpha
-git --no-pager status
+## 🏗️ Repository Structure
+```text
+├── .github/            # Repo-level GitHub configuration
+├── README.md           # Project documentation
+├── demos.json          # Demo catalog/configuration data
+├── demos/              # Individual demo projects and assets
+├── google-sheets/      # Google Sheets-related integration/assets
+├── index.html          # Main gallery page and app shell
+├── scripts.js          # Core gallery behavior and demo loading logic
+└── styles.css          # Gallery UI styling, layout, and visual theme
 ```
 
-As experiments are added, project-specific scripts (build, test, lint, dev) should be documented and kept current.
+## 🎨 Features
+- **Central demo gallery:** Single entry point for discovering alpha builds.
+- **Config-driven listing:** `demos.json` controls what appears in the UI.
+- **Vanilla front-end stack:** Lightweight HTML/CSS/JavaScript implementation.
+- **GitHub Pages deployment:** Public and easy-to-share preview environment.
+- **Extensible demo architecture:** New demos can be added without rewriting the gallery framework.
 
-## Contribution Expectations
-
-When contributing experimental code:
-
-1. Describe the hypothesis or design goal
-2. Keep implementation scoped and easy to review
-3. Include validation notes (what was tested and observed)
-4. Clean up obsolete experiments when they no longer provide value
-
-## Stability Notice
-
-This repository is intentionally unstable and exploratory.  
-Do not treat it as production-ready software.
-
----
-
-**Colibri Alpha** serves as the creative testbed for shaping future Arbora OS experiences.
+## 🔧 Technical Details
+- **Hosting:** GitHub Pages  
+- **Frontend:** HTML, CSS, JavaScript  
+- **Demo management:** JSON-based configuration (`demos.json`)  
+- **Project organization:** Root gallery app + modular demo directories (`demos/`) + auxiliary integration area (`google-sheets/`)  
